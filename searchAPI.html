@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <title>Search API Exercise</title>
+</head>
+<body>
+
+  <h1>Look up Gifs!</h1>
+
+  <input type="text" name="search" placeholder="Search" id="searchBar"></input>
+  <input type="button" name="search" value="Go" id="search"></input>
+
+  <div id="images"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+
+    // function gifLookup(keyWord) {
+    //   var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=" + keyWord + "&limit=1";
+
+    //   $('#search').on('click', function() {
+    //     $.ajax({
+    //       url: queryURL,
+    //       method: 'GET'
+    //     }).done(function(obj){
+    //       var imageSrc = obj.data[0].images.downsized.url;
+    //       // console.log(obj.data[0].images.downsized.url)
+    //       var newImage = $('<img>');
+    //         newImage.attr('src', imageSrc);
+    //       $('#images').append(newImage);
+    //     });
+    //   })
+    // }
+
+    // gifLookup();
+
+    function gifLookup() {
+      $('#search').on('click', gifSearch);
+    
+      $(document).keyup(function(event) {
+        var event = event.which;
+        if (event === 13){
+          gifSearch();
+        }
+      })
+
+    function gifSearch(){
+      $('#images').empty();
+        var keyWord = $('input:text').val();
+
+        var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=" + keyWord + "&limit=20";
+
+        var num = Math.floor(Math.random() * 20);
+          $.ajax({
+            url: queryURL,
+            method: 'GET'
+          }).done(function(obj) {
+            var imageSrc = obj.data[num].images.downsized.url;
+            // console.log(imageSrc)
+            var newImage = $('<img>');
+              newImage.attr('src', imageSrc);
+            $('#images').append(newImage);
+          })
+        $('input:text').empty();
+      };
+
+    }
+
+    gifLookup();
+
+
+
+  </script>
+
+</body>
+</html>
